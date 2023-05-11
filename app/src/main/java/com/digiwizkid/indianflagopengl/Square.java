@@ -8,27 +8,36 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import static android.opengl.GLES20.*;
-import static android.opengl.GLES32.GL_QUADS;
 
 public class Square {
     static final int COORDS_PER_VERTEX = 2;
-    private final FloatBuffer vertexBuffer;
-    private final ShortBuffer drawListBuffer;
+    /*
+     * ##########
+     * #        #
+     * #        #
+     * #        #
+     * ##########
+     *  \     /
+     *   \  /
+     *    #
+     * */
     static float[] squareCoords = {
             -0.5f, 0.5f,      // top left
+            0.5f, 0.5f,        // top right
             -0.5f, -0.5f,     // bottom left
             0.5f, -0.5f,      // bottom right
-            0.5f, 0.5f        // top right
+            0f, -1f         // bottom triangle
     };
+    private final FloatBuffer vertexBuffer;
+    private final ShortBuffer drawListBuffer;
     private final int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4;
-    private final short[] drawOrder = {0, 1, 2, 0, 2, 3};
-    private int positionHandle;
-    private int colorHandle;
+    private final short[] drawOrder = {
+            0, 1, 2,
+            2, 1, 3,
+            2, 4, 3
+    };
     private final int program;
-
-
-
     private final String vertexShaderCode =
             "attribute vec4 vPosition;" +
                     "void main() {" +
@@ -40,6 +49,8 @@ public class Square {
                     "void main() {" +
                     "  gl_FragColor = vColor;" +
                     "}";
+    private int positionHandle;
+    private int colorHandle;
 
     public Square() {
         ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
@@ -98,7 +109,13 @@ public class Square {
 
         glUniform4fv(colorHandle, 1, color, 0);
 
-        glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
+        // use glDrawArrays with GL_TRIANGLE_STRIP ignoring draw order
+//        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertexCount);
+
+        // use glDrawElements with GL_TRIANGLES to utilise draw order
+        glDrawElements(
+                GL_TRIANGLES, drawOrder.length,
+                GL_UNSIGNED_SHORT, drawListBuffer);
 
         glDisableVertexAttribArray(positionHandle);
     }
