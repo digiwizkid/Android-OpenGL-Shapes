@@ -11,31 +11,34 @@ import static android.opengl.GLES20.*;
 
 public class Square {
     static final int COORDS_PER_VERTEX = 2;
-    /*
-     * ##########
-     * #        #
-     * #        #
-     * #        #
-     * ##########
-     *  \     /
-     *   \  /
-     *    #
-     * */
+
+//    static float[] squareCoords = {
+//            0f, 1f,             // top triangle
+//            -0.5f, 0.5f,      // top left
+//            0.5f, 0.5f,        // top right
+//            -1f,0f,              // left triangle
+//            1f,0f,              // right triangle
+//            -0.5f, -0.5f,     // bottom left
+//            0.5f, -0.5f,      // bottom right
+//            0f, -1f         // bottom triangle
+//    };
+
     static float[] squareCoords = {
-            -0.5f, 0.5f,      // top left
-            0.5f, 0.5f,        // top right
-            -0.5f, -0.5f,     // bottom left
-            0.5f, -0.5f,      // bottom right
-            0f, -1f         // bottom triangle
+            -1f, 0f,    // left
+            0f, 1f,     // top
+            1f, 0f,     // right
+            0f, -1f     // bottom
     };
+
     private final FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
     private final int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4;
     private final short[] drawOrder = {
             0, 1, 2,
-            2, 1, 3,
-            2, 4, 3
+            2, 0, 3,
+            3, 0, 4,
+            4, 0, 1,
     };
     private final int program;
     private final String vertexShaderCode =
@@ -109,8 +112,8 @@ public class Square {
 
         glUniform4fv(colorHandle, 1, color, 0);
 
-        // use glDrawArrays with GL_TRIANGLE_STRIP ignoring draw order
-//        glDrawArrays(GL_TRIANGLE_STRIP, 0, vertexCount);
+        // use glDrawArrays with GL_TRIANGLE_STRIP/ FAN ignoring draw order
+//        glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
 
         // use glDrawElements with GL_TRIANGLES to utilise draw order
         glDrawElements(
@@ -119,5 +122,4 @@ public class Square {
 
         glDisableVertexAttribArray(positionHandle);
     }
-
 }
