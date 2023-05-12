@@ -6,33 +6,16 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 
 import static android.opengl.GLES20.*;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 public class Square {
     static final int COORDS_PER_VERTEX = 2;
-
-//    static float[] squareCoords = {
-//            0f, 1f,             // top triangle
-//            -0.5f, 0.5f,      // top left
-//            0.5f, 0.5f,        // top right
-//            -1f,0f,              // left triangle
-//            1f,0f,              // right triangle
-//            -0.5f, -0.5f,     // bottom left
-//            0.5f, -0.5f,      // bottom right
-//            0f, -1f         // bottom triangle
-//    };
-
-    static float[] squareCoords = {
-            -1f, 0f,    // left
-            0f, 1f,     // top
-            1f, 0f,     // right
-            0f, -1f     // bottom
-    };
-
     private final FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
-    private final int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
     private final int vertexStride = COORDS_PER_VERTEX * 4;
     private final short[] drawOrder = {
             0, 1, 2,
@@ -52,10 +35,28 @@ public class Square {
                     "void main() {" +
                     "  gl_FragColor = vColor;" +
                     "}";
+    int steps = 50;
+    float angle = (float) ((3.141592 * 2f) / steps);
+    float radius = 1.0f;
+    float[] squareCoords = new float[steps * 2];
+    private final int vertexCount = squareCoords.length / COORDS_PER_VERTEX;
     private int positionHandle;
     private int colorHandle;
 
     public Square() {
+        ArrayList<Float> squareCoordsList = new ArrayList<>();
+        // algo for circle
+        for (int i = 0; i < steps; i++) {
+            float newX = (float) (radius * sin(angle * i));
+            float newY = (float) (-radius * cos(angle * i));
+            squareCoordsList.add(newX);
+            squareCoordsList.add(newY);
+        }
+
+        for (int j = 0; j < squareCoordsList.size(); j++) {
+            squareCoords[j] = squareCoordsList.get(j);
+        }
+
         ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
 
@@ -113,12 +114,12 @@ public class Square {
         glUniform4fv(colorHandle, 1, color, 0);
 
         // use glDrawArrays with GL_TRIANGLE_STRIP/ FAN ignoring draw order
-//        glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
+        glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
 
         // use glDrawElements with GL_TRIANGLES to utilise draw order
-        glDrawElements(
+        /*glDrawElements(
                 GL_TRIANGLES, drawOrder.length,
-                GL_UNSIGNED_SHORT, drawListBuffer);
+                GL_UNSIGNED_SHORT, drawListBuffer);*/
 
         glDisableVertexAttribArray(positionHandle);
     }
