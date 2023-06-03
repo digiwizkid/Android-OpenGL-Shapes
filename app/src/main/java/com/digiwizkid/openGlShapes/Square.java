@@ -1,4 +1,4 @@
-package com.digiwizkid.indianflagopengl;
+package com.digiwizkid.openGlShapes;
 
 import android.util.Log;
 
@@ -35,7 +35,7 @@ public class Square {
                     "void main() {" +
                     "  gl_FragColor = vColor;" +
                     "}";
-    int steps = 50;
+    int steps = 70;
     float angle = (float) ((3.141592 * 2f) / steps);
     float radius = 1.0f;
     float[] squareCoords = new float[steps * 2];
@@ -109,7 +109,7 @@ public class Square {
 
         colorHandle = glGetUniformLocation(program, "vColor");
 
-        float[] color = {1f, 0f, 0f, 1.0f};
+        float[] color = {1f, 1f, 0f, 1.0f};
 
         glUniform4fv(colorHandle, 1, color, 0);
 
@@ -120,6 +120,7 @@ public class Square {
         /*glDrawElements(
                 GL_TRIANGLES, drawOrder.length,
                 GL_UNSIGNED_SHORT, drawListBuffer);*/
+
 
         glDisableVertexAttribArray(positionHandle);
     }
