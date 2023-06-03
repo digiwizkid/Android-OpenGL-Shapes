@@ -1,4 +1,4 @@
-package com.digiwizkid.openGlShapes;
+package com.digiwizkid.OpenGlShapes;
 
 import android.opengl.GLSurfaceView;
 import androidx.appcompat.app.AppCompatActivity;

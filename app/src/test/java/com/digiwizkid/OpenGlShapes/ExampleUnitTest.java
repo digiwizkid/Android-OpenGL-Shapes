@@ -1,4 +1,4 @@
-package com.digiwizkid.openGlShapes;
+package com.digiwizkid.OpenGlShapes;
 
 import org.junit.Test;
 

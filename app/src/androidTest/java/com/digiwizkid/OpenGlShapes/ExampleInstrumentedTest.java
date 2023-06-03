@@ -1,4 +1,4 @@
-package com.digiwizkid.openGlShapes;
+package com.digiwizkid.OpenGlShapes;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.digiwizkid.openGlShapes", appContext.getPackageName());
+        assertEquals("com.digiwizkid.OpenGlShapes", appContext.getPackageName());
     }
 }
