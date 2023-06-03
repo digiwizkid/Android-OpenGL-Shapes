@@ -6,7 +6,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.digiwizkid.indianflagopengl"
+        applicationId "com.digiwizkid.OpenGlShapes"
         minSdk 24
         targetSdk 32
         versionCode 1

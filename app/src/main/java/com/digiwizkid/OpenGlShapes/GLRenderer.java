@@ -1,4 +1,4 @@
-package com.digiwizkid.indianflagopengl;
+package com.digiwizkid.OpenGlShapes;
 
 import android.opengl.GLSurfaceView;
 
