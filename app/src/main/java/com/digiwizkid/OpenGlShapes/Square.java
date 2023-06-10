@@ -26,7 +26,7 @@ public class Square {
             0.5f, 0.5f,        // top right
             -0.5f, -0.5f,     // bottom left
             0.5f, -0.5f,      // bottom right
-            0f, -1f         // bottom triangle
+//            0f, -1f         // bottom triangle
     };
     private final FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
@@ -35,7 +35,7 @@ public class Square {
     private final short[] drawOrder = {
             0, 1, 2,
             2, 1, 3,
-            2, 4, 3
+//            2, 4, 3
     };
     private final int program;
     private final String vertexShaderCode =
@@ -99,14 +99,11 @@ public class Square {
         glUseProgram(program);
         positionHandle = glGetAttribLocation(program, "vPosition");
         glEnableVertexAttribArray(positionHandle);
-
         glVertexAttribPointer(positionHandle, COORDS_PER_VERTEX,
                 GL_FLOAT, false, vertexStride, vertexBuffer);
 
         colorHandle = glGetUniformLocation(program, "vColor");
-
         float[] color = {1f, 0f, 0f, 1.0f};
-
         glUniform4fv(colorHandle, 1, color, 0);
 
         // use glDrawArrays with GL_TRIANGLE_STRIP ignoring draw order
