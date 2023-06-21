@@ -13,20 +13,17 @@ public class Square {
     static final int COORDS_PER_VERTEX = 2;
     /*
      * ##########
-     * #        #
-     * #        #
-     * #        #
-     * ##########
      *  \     /
      *   \  /
      *    #
      * */
     static float[] squareCoords = {
-            -0.5f, 0.5f,      // top left
-            0.5f, 0.5f,        // top right
-            -0.5f, -0.5f,     // bottom left
-            0.5f, -0.5f,      // bottom right
-            0f, -1f         // bottom triangle
+            0f, .45f,             // top triangle
+            -0.5f, 0f,     // bottom left
+            0.5f, 0f,      // bottom right
+            -0.5f, .25f,
+            0.5f, .25f,
+            0f, -.15f         // bottom triangle
     };
     private final FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
@@ -34,8 +31,7 @@ public class Square {
     private final int vertexStride = COORDS_PER_VERTEX * 4;
     private final short[] drawOrder = {
             0, 1, 2,
-            2, 1, 3,
-            2, 4, 3
+            3,4,5
     };
     private final int program;
     private final String vertexShaderCode =
